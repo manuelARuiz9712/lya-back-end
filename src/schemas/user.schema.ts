@@ -1,4 +1,4 @@
-import { userInterface } from 'src/interfaces/user.interface';
+import { userInterface } from 'interfaces/user.interface';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
