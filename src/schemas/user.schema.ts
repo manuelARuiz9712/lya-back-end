@@ -2,7 +2,7 @@ import { userInterface } from 'interfaces/user.interface';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type CatDocument = User & Document;
+export type UserDocument = User & Document;
 
 @Schema()
 export class User  implements userInterface {
