@@ -52,8 +52,8 @@ export class UserService {
       let user = await this.getUserById(id);
      
       if ( user ){
-
-        await user.updateOne({
+        
+        await this.userModel.updateOne({_id:id},{
           userDocument:updateInfo.userDocument?updateInfo.userDocument:user.userDocument,
           userName:updateInfo.userName?updateInfo.userName:user.userName
         })
@@ -100,6 +100,34 @@ export class UserService {
         value:null
       };
 
+
+    }
+
+  }
+
+  async activateAcount(id:string){
+
+    let user = await this.getUserById(id);
+
+    if ( user ){
+
+      user.userStatus = true;
+      await user.save();
+     
+     return {
+        status:true,
+        msg:"El usuario ha sido activado",
+        value:null
+      };
+
+
+    }else{
+
+      return {
+        status:false,
+        msg:"el usuario no  existe en base de datos",
+        value:null
+      };
 
     }
 
