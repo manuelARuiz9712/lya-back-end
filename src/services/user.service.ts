@@ -46,10 +46,6 @@ export class UserService {
         };
        
       }
-
-        
-      
-    
   }
   async updateUser(id:string,updateInfo:UpdateUserInfo){
      
@@ -80,4 +76,33 @@ export class UserService {
       }
 
   }
+
+  
+  async deleteUser (id:string){
+
+    let user = await this.getUserById(id);
+
+    if ( !user ){
+
+    return {
+        status:false,
+        msg:"el usuario no  existe en base de datos",
+        value:null
+      };
+
+    }else{
+
+     await user.delete();
+
+    return {
+        status:true,
+        msg:"El usuario ha sido eliminado",
+        value:null
+      };
+
+
+    }
+
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post,Put, Res, HttpStatus, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post,Put, Res, HttpStatus, Param, Delete } from '@nestjs/common';
 import { CreateUserDto, UpdateUserInfo } from 'dto/user.dto';
 import { UserService } from 'services/user.service';
 import {ResponseInt} from "interfaces/response.interface";
@@ -24,7 +24,7 @@ export class UserController {
     }
    return res.status(HttpStatus.OK).json({
         statusCode:200,
-        message:"El usuario ha sido registrado con exito",
+        message:result.msg,
         value:{id:result.value}
 
     });
@@ -40,7 +40,7 @@ export class UserController {
     if ( result.status === true ){
       res.status(HttpStatus.OK).json({
         statusCode:200,
-        message:"Usuario editado",
+        message:result.msg,
       });
 
     }else{
@@ -50,6 +50,28 @@ export class UserController {
       });
     }
 
+
+  }
+  @Delete("/delete/:id")
+  async deleteUser (@Param('id')id:string,@Res() res: Response){
+
+    let result = await this.userService.deleteUser(id);
+
+    if ( result.status === true ){
+
+      res.status(HttpStatus.OK).json({
+        statusCode:200,
+        message:result.msg,
+      });
+
+    }else{
+
+      res.status(HttpStatus.BAD_REQUEST).json({
+        statusCode:400,
+        message:result.msg,
+      });
+
+    }
 
   }
 }
