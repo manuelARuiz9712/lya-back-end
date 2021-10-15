@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateUserDto, UpdateUserInfo } from 'dto/user.dto';
+import { CreateUserDto, LoginUserDto, UpdateUserInfo } from 'dto/user.dto';
 import { Model } from 'mongoose';
 import { UserDocument, User } from 'schemas/user.schema';
 import { QueryResult } from 'interfaces/response.interface';
@@ -130,6 +130,36 @@ export class UserService {
       };
 
     }
+
+  }
+
+  async LoginUser(LoginUser:LoginUserDto){
+
+    let user = await this.existUser(LoginUser.userDocument);
+
+    if (!user){
+
+      return {
+        status:false,
+        msg:"Documento o contraseña incorrecta",
+        value:null
+      };
+    }
+    if ( user.userPassword !== sha256(LoginUser.userPassword) ){
+
+      return {
+        status:false,
+        msg:"Documento o contraseña incorrecta",
+        value:null
+      };
+
+    }
+
+    
+    
+
+    
+
 
   }
 

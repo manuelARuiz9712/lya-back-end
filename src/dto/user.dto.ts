@@ -24,10 +24,21 @@ class UpdateUserInfo  implements userInterface{
     userDocument?: string;
 
 }
+class LoginUserDto  implements userInterface{
+   
+    
+    @IsNotEmpty()
+    userDocument: string;
+
+    @IsNotEmpty()
+    userPassword: string;
+
+}
 
 
 
 export {
     CreateUserDto,
-    UpdateUserInfo
+    UpdateUserInfo,
+    LoginUserDto
 }

@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post,Put, Res, HttpStatus, Param, Delete, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Post,Put, Res, HttpStatus, Param, Delete, Patch, UseGuards, Request } from '@nestjs/common';
 import { CreateUserDto, UpdateUserInfo } from 'dto/user.dto';
 import { UserService } from 'services/user.service';
 import {ResponseInt} from "interfaces/response.interface";
 import { Response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'auth/jwt-auth.guard';
 
 @Controller("users")
 export class UserController {
@@ -74,7 +76,7 @@ export class UserController {
     }
 
   }
-
+  @UseGuards(JwtAuthGuard)
   @Patch("/:id/active")
   async updateUser (@Param('id')id:string,@Res() res: Response){
     let result = await this.userService.activateAcount(id);
@@ -95,5 +97,7 @@ export class UserController {
 
     }
   }
+
+
 
 }
