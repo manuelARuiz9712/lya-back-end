@@ -17,6 +17,17 @@ class CreateUserDto  implements userInterface{
 
 }
 
+class UpdateUserInfo  implements userInterface{
+   
+    
+    userName?: string;
+    userDocument?: string;
+
+}
+
+
+
 export {
-    CreateUserDto
+    CreateUserDto,
+    UpdateUserInfo
 }

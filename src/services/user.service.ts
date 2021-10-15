@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateUserDto } from 'dto/user.dto';
+import { CreateUserDto, UpdateUserInfo } from 'dto/user.dto';
 import { Model } from 'mongoose';
 import { UserDocument, User } from 'schemas/user.schema';
 import { QueryResult } from 'interfaces/response.interface';
@@ -14,6 +14,9 @@ export class UserService {
     existUser = (document:string)=>{
     return  this.userModel.findOne({userDocument:document});
 
+   }
+   getUserById = (id)=>{
+    return  this.userModel.findById(id);
    }
 
   async registerUser(createUserDto:CreateUserDto):Promise<QueryResult>{
@@ -47,5 +50,34 @@ export class UserService {
         
       
     
+  }
+  async updateUser(id:string,updateInfo:UpdateUserInfo){
+     
+      let user = await this.getUserById(id);
+     
+      if ( user ){
+
+        await user.updateOne({
+          userDocument:updateInfo.userDocument?updateInfo.userDocument:user.userDocument,
+          userName:updateInfo.userName?updateInfo.userName:user.userName
+        })
+       
+       return {
+          status:true,
+          msg:"El usuario ha sido editado",
+          value:null
+        };
+
+
+      }else{
+
+        return {
+          status:false,
+          msg:"el usuario no  existe en base de datos",
+          value:null
+        };
+
+      }
+
   }
 }
