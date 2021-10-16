@@ -1,11 +1,9 @@
 import { Body, Controller, Get, Post,Put, Res, HttpStatus, Param, Delete, Patch, UseGuards, Req } from '@nestjs/common';
 import { CreateUserDto, UpdateUserInfo } from 'dto/user.dto';
 import { UserService } from 'services/user.service';
-import {ResponseInt} from "interfaces/response.interface";
 import { Request, Response } from 'express';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'auth/jwt-auth.guard';
-import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import {  ApiBody } from '@nestjs/swagger';
 import { KEY_ACCESS_TOKEN } from 'utils/contants';
 import { AuthService } from 'auth/auth.service';
 
@@ -39,9 +37,7 @@ export class UserController {
    
   }
   
-  @ApiBody({
-    description:"Actualizar informacion del  usuario"
-  })
+
   @UseGuards(JwtAuthGuard)
   @Put("/:id") 
   async updateInfo( @Body() updateDto:UpdateUserInfo,@Param('id')id:string,@Res() res: Response,@Req() req:Request){
@@ -66,7 +62,6 @@ export class UserController {
   }
 
 
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Delete("/:id")
   async deleteUser (@Param('id')id:string,@Res() res: Response){
@@ -93,7 +88,6 @@ export class UserController {
   }
 
 
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch("/:id/active")
   async updateUser (@Param('id')id:string,@Res() res: Response,@Req() req:Request){
@@ -119,7 +113,7 @@ export class UserController {
     }
   }
 
-  @ApiBearerAuth()
+
   @UseGuards(JwtAuthGuard)
   @Get("/:id")
   async getUserInfo(@Param('id')id:string,@Res() res: Response,@Req() req:Request){
