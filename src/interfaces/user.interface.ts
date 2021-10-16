@@ -1,7 +1,7 @@
 
 interface userInterface {
 
-    objectId?:number
+    _id?:string
     userName?:string
     userDocument?:string
     userPassword?:string

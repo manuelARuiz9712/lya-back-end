@@ -6,6 +6,8 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User  implements userInterface {
+
+    _id?:string;
     
     @Prop({required:false})
     userName?: string;

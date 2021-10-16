@@ -7,6 +7,7 @@ import { KEY_ACCESS_TOKEN } from 'utils/contants';
 import { AuthService } from 'auth/auth.service';
 import { ApiResponse } from '@nestjs/swagger';
 import { ResponseDto } from 'dto/response.dto';
+import { userInterface } from 'interfaces/user.interface';
 
 @Controller("users")
 export class UserController {
@@ -72,13 +73,17 @@ export class UserController {
    })
   @UseGuards(JwtAuthGuard)
   @Delete("/:id")
-  async deleteUser (@Param('id')id:string,@Res() res: Response){
+  async deleteUser (@Param('id')id:string,@Res() res: Response,@Req() req:Request){
 
     let result = await this.userService.deleteUser(id);
 
     if ( result.status === true ){
+      if ( (req.user as userInterface)._id ===  id ){
+        
+        res.cookie(KEY_ACCESS_TOKEN,"");
+      }
 
-      res.cookie(KEY_ACCESS_TOKEN,"");
+     
       res.status(HttpStatus.OK).json({
         statusCode:200,
         message:result.msg,
