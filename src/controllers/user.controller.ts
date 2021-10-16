@@ -44,7 +44,7 @@ export class UserController {
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Put("/updateInfo/:id") 
+  @Put("/:id") 
   async updateInfo( @Body() updateDto:UpdateUserInfo,@Param('id')id:string,@Res() res: Response){
 
     let result = await this.userService.updateUser(id,updateDto);
@@ -118,7 +118,7 @@ export class UserController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Get(":id")
+  @Get("/:id")
   async getUserInfo(@Param('id')id:string,@Res() res: Response,@Req() req:Request){
 
     let result = await this.userService.getInfoUser(id);
