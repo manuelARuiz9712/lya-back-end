@@ -9,8 +9,7 @@ import { UserController } from 'controllers/user.controller';
 import { UserService } from 'services/user.service';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from 'auth/auth.service'; 
-import { LocalStrategy } from 'auth/local.strategy';
-import { JwtAuthGuard } from 'auth/jwt-auth.guard';
+import { LocalStrategy } from 'auth/local.strategy'; 
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'auth/jwt.strategy';
 import { JWT_SECRET } from 'utils/contants';
@@ -25,7 +24,7 @@ import { HttpModule } from '@nestjs/axios';
      isGlobal: true,
     }),
     HttpModule,
-    MongooseModule.forRoot('mongodb://localhost/lyatest'),
+    MongooseModule.forRoot(process.env.MONGO_DB),
     MongooseModule.forFeature([
         
       { name:"users",schema: UserSchema }
