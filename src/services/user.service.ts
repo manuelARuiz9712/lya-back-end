@@ -155,11 +155,35 @@ export class UserService {
 
     }
 
-    
-    
+  }
 
-    
+  async getInfoUser(id:string){
 
+    let user = await this.getUserById(id);
+
+    if ( !user){
+
+      return {
+        status:false,
+        msg:"el usuario no  existe en base de datos",
+        value:null
+      };
+
+
+    }
+  if (  user.userStatus){
+    return  {
+      status:true,
+      msg:"",
+      value:{user}
+    };
+  }
+
+  return {
+    status:false,
+    msg:"El usuario no ha sido activado",
+    value:null
+  };
 
   }
 

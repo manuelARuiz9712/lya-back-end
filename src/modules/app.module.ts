@@ -14,14 +14,17 @@ import { JwtAuthGuard } from 'auth/jwt-auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'auth/jwt.strategy';
 import { JWT_SECRET } from 'utils/contants';
+import { HttpModule } from '@nestjs/axios';
 
 
 
 @Module({
   imports: [
+   
     ConfigModule.forRoot({
      isGlobal: true,
     }),
+    HttpModule,
     MongooseModule.forRoot('mongodb://localhost/lyatest'),
     MongooseModule.forFeature([
         

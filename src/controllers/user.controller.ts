@@ -86,7 +86,7 @@ export class UserController {
     let result = await this.userService.activateAcount(id);
     console.log({user:req.user});
 
-    if ( result.status === true ){
+    if ( result.status){
 
       res.status(HttpStatus.OK).json({
         statusCode:200,
@@ -101,6 +101,29 @@ export class UserController {
       });
 
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(":id")
+  async getUserInfo(@Param('id')id:string,@Res() res: Response,@Req() req:Request){
+
+    let result = await this.userService.getInfoUser(id);
+
+    if ( result.status ){
+
+      res.status(HttpStatus.OK).json({
+        statusCode:200,
+        message:result.msg,
+        value:result.value
+      });
+
+    }else{
+      res.status(HttpStatus.BAD_REQUEST).json({
+        statusCode:400,
+        message:result.msg,
+      });
+    }
+
   }
 
 
