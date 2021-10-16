@@ -33,7 +33,7 @@ NINJA_URI=https://catfact.ninja/
 MONGO_DB=mongodb://localhost/lyatest
 ```
 
-_Luego abre la carpeta principal del proyecto en una terminal y instala las dependencias con el siguiente comando
+_Luego abre la carpeta principal del proyecto en una terminal y instala las dependencias con el siguiente comando_
 
 ```
 yarn install
@@ -42,7 +42,7 @@ yarn install
 
 ## Ejecutando el proyecto ⚙️
 
-_Para ejecutar el proyecto asegurate de que el puerto seteado en el archivo .env  variable APP_PORT este libre si no es asi cambialo
+_Para ejecutar el proyecto asegurate de que el puerto seteado en el archivo .env  variable APP_PORT este libre si no es asi cambialo,
 es probable que debas cambiar la conexion a mongo db si tienes una diferente en tu maquina_
 
 _ejecuta el proyecto con el siguiete comando_
@@ -78,7 +78,7 @@ _Si todo va bien deberias ver la siguiente salida_
 
 ```
 
-_SI sale un error de conexion hacia mongo deberias hechale un vistazo al sting de conexion que se encuentra en _
+_SI sale un error de conexion hacia mongo deberias hechale un vistazo al sting de conexion que se encuentra en el archivo .env _
 
 ## Construido con 🛠️
 
