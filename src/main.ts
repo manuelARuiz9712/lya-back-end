@@ -10,6 +10,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
   .setTitle('Lya electronic test')
   .setDescription('Wonderfull test with nest.js')
+  .addBearerAuth()
   .setVersion('1.0')
   .addTag('lyatest')
   .build();

@@ -5,11 +5,15 @@ import {ResponseInt} from "interfaces/response.interface";
 import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'auth/jwt-auth.guard';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 
 @Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @ApiBody({
+    description:"Registrar usuario"
+  })
   @Post("/register")
   async register(@Body() createUserDto:CreateUserDto,@Res() res: Response ) {
     let result = await this.userService.registerUser(createUserDto);
@@ -34,9 +38,13 @@ export class UserController {
 
    
   }
-
+  
+  @ApiBody({
+    description:"Actualizar informacion del  usuario"
+  })
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Put("/updateInfo/:id")
+  @Put("/updateInfo/:id") 
   async updateInfo( @Body() updateDto:UpdateUserInfo,@Param('id')id:string,@Res() res: Response){
 
     let result = await this.userService.updateUser(id,updateDto);
@@ -57,8 +65,10 @@ export class UserController {
 
   }
 
+
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Delete("/delete/:id")
+  @Delete("/:id")
   async deleteUser (@Param('id')id:string,@Res() res: Response){
 
     let result = await this.userService.deleteUser(id);
@@ -80,6 +90,9 @@ export class UserController {
     }
 
   }
+
+
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch("/:id/active")
   async updateUser (@Param('id')id:string,@Res() res: Response,@Req() req:Request){
@@ -103,6 +116,7 @@ export class UserController {
     }
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get(":id")
   async getUserInfo(@Param('id')id:string,@Res() res: Response,@Req() req:Request){
