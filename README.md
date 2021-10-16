@@ -78,9 +78,16 @@ _Si todo va bien deberias ver la siguiente salida_
 
 ```
 
+## Construido con 🛠️
+
 SI sale un error de conexion hacia mongo deberias hechale un vistazo al sting de conexion que se encuentra en el archivo .env 
 
-## Construido con 🛠️
+## La documentacion del api esta disponible en  🚀
+
+```
+localhost:[puerto_del_api]/api
+
+```
 
 
 * [Nest.js](https://nestjs.com/) - Framework para desarrollo de la api
