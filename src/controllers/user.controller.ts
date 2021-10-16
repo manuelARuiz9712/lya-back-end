@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Post,Put, Res, HttpStatus, Param, Delete, Patch, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post,Put, Res, HttpStatus, Param, Delete, Patch, UseGuards, Req } from '@nestjs/common';
 import { CreateUserDto, UpdateUserInfo } from 'dto/user.dto';
 import { UserService } from 'services/user.service';
 import {ResponseInt} from "interfaces/response.interface";
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'auth/jwt-auth.guard';
 
@@ -34,6 +34,8 @@ export class UserController {
 
    
   }
+
+  @UseGuards(JwtAuthGuard)
   @Put("/updateInfo/:id")
   async updateInfo( @Body() updateDto:UpdateUserInfo,@Param('id')id:string,@Res() res: Response){
 
@@ -54,6 +56,8 @@ export class UserController {
 
 
   }
+
+  @UseGuards(JwtAuthGuard)
   @Delete("/delete/:id")
   async deleteUser (@Param('id')id:string,@Res() res: Response){
 
@@ -78,8 +82,9 @@ export class UserController {
   }
   @UseGuards(JwtAuthGuard)
   @Patch("/:id/active")
-  async updateUser (@Param('id')id:string,@Res() res: Response){
+  async updateUser (@Param('id')id:string,@Res() res: Response,@Req() req:Request){
     let result = await this.userService.activateAcount(id);
+    console.log({user:req.user});
 
     if ( result.status === true ){
 

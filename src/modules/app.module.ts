@@ -1,6 +1,7 @@
+
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AuthController } from '../controllers/authcontroller';
+import { AuthController } from '../controllers/auth.controller';
 import { AppService } from '../services/app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../schemas/user.schema';
@@ -9,8 +10,11 @@ import { UserService } from 'services/user.service';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from 'auth/auth.service'; 
 import { LocalStrategy } from 'auth/local.strategy';
-import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthGuard } from 'auth/jwt-auth.guard';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from 'auth/jwt.strategy';
+import { JWT_SECRET } from 'utils/contants';
+
 
 
 @Module({
@@ -24,14 +28,16 @@ import { JwtAuthGuard } from 'auth/jwt-auth.guard';
       { name:"users",schema: UserSchema }
     ]
       ),
+   
       PassportModule,
       JwtModule.register({
-        secret:process.env.JWT_SECRET,
-        signOptions: { expiresIn: '5000s' },
+        secret: JWT_SECRET,
+        signOptions: { expiresIn: '60s' },
       }),
+
   ],
   controllers: [AuthController,UserController],
-  providers: [AppService,UserService,AuthService,LocalStrategy,JwtAuthGuard],
-  exports: [AuthService,JwtAuthGuard],
+  providers: [AuthService,LocalStrategy,JwtStrategy,AppService,UserService],
+  exports: [AuthService],
 })
 export class AppModule {}
