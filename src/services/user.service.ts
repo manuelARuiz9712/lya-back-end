@@ -50,21 +50,19 @@ export class UserService {
   async updateUser(id:string,updateInfo:UpdateUserInfo){
      
       let user = await this.getUserById(id);
-     
+    
       if ( user ){
-        
-        await this.userModel.updateOne({_id:id},{
-          userDocument:updateInfo.userDocument?updateInfo.userDocument:user.userDocument,
-          userName:updateInfo.userName?updateInfo.userName:user.userName
-        })
+
+        user.userDocument = updateInfo.userDocument?updateInfo.userDocument:user.userDocument;
+        user.userName = updateInfo.userName?updateInfo.userName:user.userName;
+        console.log({user});
+        await user.save();
        
        return {
           status:true,
           msg:"El usuario ha sido editado",
-          value:null
+          value:user.toObject()
         };
-
-
       }else{
 
         return {
@@ -117,7 +115,7 @@ export class UserService {
      return {
         status:true,
         msg:"El usuario ha sido activado",
-        value:null
+        value:user.toObject()
       };
 
 
@@ -130,6 +128,22 @@ export class UserService {
       };
 
     }
+
+  }
+
+  async IsActiveUser(id){
+
+    let user = await this.getUserById(id);
+    
+
+    if (!user){
+      return false;
+    }
+    if ( user.userStatus ){
+      return true;
+    }
+
+    return false;
 
   }
 

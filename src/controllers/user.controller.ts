@@ -6,14 +6,14 @@ import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { KEY_ACCESS_TOKEN } from 'utils/contants';
+import { AuthService } from 'auth/auth.service';
 
 @Controller("users")
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService,private authService: AuthService) {}
 
-  @ApiBody({
-    description:"Registrar usuario"
-  })
+
   @Post("/register")
   async register(@Body() createUserDto:CreateUserDto,@Res() res: Response ) {
     let result = await this.userService.registerUser(createUserDto);
@@ -42,14 +42,14 @@ export class UserController {
   @ApiBody({
     description:"Actualizar informacion del  usuario"
   })
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Put("/:id") 
-  async updateInfo( @Body() updateDto:UpdateUserInfo,@Param('id')id:string,@Res() res: Response){
+  async updateInfo( @Body() updateDto:UpdateUserInfo,@Param('id')id:string,@Res() res: Response,@Req() req:Request){
 
     let result = await this.userService.updateUser(id,updateDto);
-
+   
     if ( result.status === true ){
+      res.cookie(KEY_ACCESS_TOKEN,this.authService.login(result.value).access_token);
       res.status(HttpStatus.OK).json({
         statusCode:200,
         message:result.msg,
@@ -75,6 +75,7 @@ export class UserController {
 
     if ( result.status === true ){
 
+      res.cookie(KEY_ACCESS_TOKEN,"");
       res.status(HttpStatus.OK).json({
         statusCode:200,
         message:result.msg,
@@ -97,9 +98,11 @@ export class UserController {
   @Patch("/:id/active")
   async updateUser (@Param('id')id:string,@Res() res: Response,@Req() req:Request){
     let result = await this.userService.activateAcount(id);
-    console.log({user:req.user});
+    
 
     if ( result.status){
+
+      res.cookie(KEY_ACCESS_TOKEN,this.authService.login(result.value).access_token);
 
       res.status(HttpStatus.OK).json({
         statusCode:200,
@@ -121,9 +124,11 @@ export class UserController {
   @Get("/:id")
   async getUserInfo(@Param('id')id:string,@Res() res: Response,@Req() req:Request){
 
-    let result = await this.userService.getInfoUser(id);
+    let isActiveUser = await this.userService.IsActiveUser(id);
+    
+    if ( isActiveUser ){
 
-    if ( result.status ){
+      let result = await this.userService.getInfoUser(id);
 
       res.status(HttpStatus.OK).json({
         statusCode:200,
@@ -132,10 +137,12 @@ export class UserController {
       });
 
     }else{
+
       res.status(HttpStatus.BAD_REQUEST).json({
         statusCode:400,
-        message:result.msg,
+        message:"No es posible obtener los datos del usuario",
       });
+
     }
 
   }

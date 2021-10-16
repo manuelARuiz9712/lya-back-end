@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Request, UseGuards, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Request, UseGuards, Res, HttpStatus, Delete } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { AuthService } from 'auth/auth.service';
+import { JwtAuthGuard } from 'auth/jwt-auth.guard';
 import { LocalAuthGuard } from 'auth/local-auth.guard';
 import { LoginUserDto } from 'dto/user.dto';
 import { Response } from 'express';
@@ -23,5 +24,14 @@ export class AuthController {
     res.cookie(KEY_ACCESS_TOKEN,accessToken);
 
     return res.status(HttpStatus.OK).json(accessToken);
+  }
+  @UseGuards(JwtAuthGuard)
+  @Delete('/authorization')
+  async logOut(@Request() req, @Res() res:Response) {
+
+   
+    res.cookie(KEY_ACCESS_TOKEN,"");
+
+    return res.status(HttpStatus.OK).send("Sesion eliminada");
   }
 }

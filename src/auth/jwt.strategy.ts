@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         JwtStrategy.extractJWT,
-        ExtractJwt.fromAuthHeaderAsBearerToken(),
+       // ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       ignoreExpiration: true,
       secretOrKey: JWT_SECRET,
@@ -20,18 +20,24 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   private static extractJWT(req: RequestType): string | null {
+    
+    
+
     if (
       req.cookies &&
       KEY_ACCESS_TOKEN in req.cookies &&
       req.cookies[KEY_ACCESS_TOKEN].length > 0
     ) {
+    
       return req.cookies[KEY_ACCESS_TOKEN];
     }
+
+  
     return null;
   }
 
   async validate(payload: userInterface) {
-   
+    
     return payload;
   }
 }
