@@ -12,7 +12,7 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     async sendMessage(@Req() req:Request ){
 
-        
+        this.messageService.sendMessage((req.user as any)._id);
 
     }
 
