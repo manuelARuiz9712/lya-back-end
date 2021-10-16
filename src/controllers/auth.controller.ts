@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Request, UseGuards, Res, HttpStatus, Delete } from '@nestjs/common';
+import { Controller,  Post, Request, UseGuards, Res, HttpStatus, Delete } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { AuthService } from 'auth/auth.service';
 import { JwtAuthGuard } from 'auth/jwt-auth.guard';
@@ -25,6 +25,7 @@ export class AuthController {
 
     return res.status(HttpStatus.OK).json(accessToken);
   }
+  
   @UseGuards(JwtAuthGuard)
   @Delete('/authorization')
   async logOut(@Request() req, @Res() res:Response) {

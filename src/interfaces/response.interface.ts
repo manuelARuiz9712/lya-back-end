@@ -1,5 +1,5 @@
 
-interface ResponseInt {
+interface ResponseInterface {
     statusCode:number,
     message:string,
     data?:any
@@ -10,4 +10,4 @@ interface QueryResult {
    msg:string,
    value:any
 }
-export {ResponseInt,QueryResult}
+export {ResponseInterface,QueryResult}

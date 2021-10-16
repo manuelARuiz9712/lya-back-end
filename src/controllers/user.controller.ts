@@ -3,15 +3,19 @@ import { CreateUserDto, UpdateUserInfo } from 'dto/user.dto';
 import { UserService } from 'services/user.service';
 import { Request, Response } from 'express';
 import { JwtAuthGuard } from 'auth/jwt-auth.guard';
-import {  ApiBody } from '@nestjs/swagger';
 import { KEY_ACCESS_TOKEN } from 'utils/contants';
 import { AuthService } from 'auth/auth.service';
+import { ApiResponse } from '@nestjs/swagger';
+import { ResponseDto } from 'dto/response.dto';
 
 @Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService,private authService: AuthService) {}
 
 
+  @ApiResponse({
+    type:ResponseDto
+   })
   @Post("/register")
   async register(@Body() createUserDto:CreateUserDto,@Res() res: Response ) {
     let result = await this.userService.registerUser(createUserDto);
@@ -37,7 +41,9 @@ export class UserController {
    
   }
   
-
+  @ApiResponse({
+   type:ResponseDto
+  })
   @UseGuards(JwtAuthGuard)
   @Put("/:id") 
   async updateInfo( @Body() updateDto:UpdateUserInfo,@Param('id')id:string,@Res() res: Response,@Req() req:Request){
@@ -61,7 +67,9 @@ export class UserController {
 
   }
 
-
+  @ApiResponse({
+    type:ResponseDto
+   })
   @UseGuards(JwtAuthGuard)
   @Delete("/:id")
   async deleteUser (@Param('id')id:string,@Res() res: Response){
@@ -87,7 +95,9 @@ export class UserController {
 
   }
 
-
+  @ApiResponse({
+    type:ResponseDto
+   })
   @UseGuards(JwtAuthGuard)
   @Patch("/:id/active")
   async updateUser (@Param('id')id:string,@Res() res: Response,@Req() req:Request){
@@ -113,7 +123,9 @@ export class UserController {
     }
   }
 
-
+  @ApiResponse({
+    type:ResponseDto
+   })
   @UseGuards(JwtAuthGuard)
   @Get("/:id")
   async getUserInfo(@Param('id')id:string,@Res() res: Response,@Req() req:Request){

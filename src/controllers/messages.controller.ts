@@ -8,6 +8,7 @@ export class AuthController {
 
     constructor(private readonly messageService:MessagesService){}
 
+    
     @Post("/send")
     @UseGuards(JwtAuthGuard)
     async sendMessage(@Req() req:Request ){

@@ -12,7 +12,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
   .setTitle('Lya electronic test')
   .setDescription('Wonderfull test with nest.js')
-  .addBearerAuth()
+  //.addBearerAuth()
   .setVersion('1.0')
   .addTag('lyatest')
   .build();
@@ -21,6 +21,6 @@ SwaggerModule.setup('api', app, document);
 
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3500);
+  await app.listen( process.env.APP_PORT || 3500);
 }
 bootstrap();
