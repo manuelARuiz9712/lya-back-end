@@ -78,7 +78,7 @@ _Si todo va bien deberias ver la siguiente salida_
 
 ```
 
-_SI sale un error de conexion hacia mongo deberias hechale un vistazo al sting de conexion que se encuentra en el archivo .env _
+SI sale un error de conexion hacia mongo deberias hechale un vistazo al sting de conexion que se encuentra en el archivo .env 
 
 ## Construido con 🛠️
 
