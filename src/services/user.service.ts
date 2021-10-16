@@ -55,7 +55,7 @@ export class UserService {
 
         user.userDocument = updateInfo.userDocument?updateInfo.userDocument:user.userDocument;
         user.userName = updateInfo.userName?updateInfo.userName:user.userName;
-        console.log({user});
+       
         await user.save();
        
        return {
