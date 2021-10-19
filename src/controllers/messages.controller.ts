@@ -4,7 +4,7 @@ import { Request } from "express";
 import { MessagesService } from "services/messages.service";
 
 @Controller("messages")
-export class AuthController {
+export class MessagesController {
 
     constructor(private readonly messageService:MessagesService){}
 
@@ -13,7 +13,12 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     async sendMessage(@Req() req:Request ){
 
-        this.messageService.sendMessage((req.user as any)._id);
+       return await this.messageService.sendMessage((req.user as any)._id);
+
+    
+      
+
+     
 
     }
 

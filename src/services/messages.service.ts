@@ -1,13 +1,14 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
 import * as mqtt from 'mqtt';
-import { getRandomArbitrary, NINJA_URI } from "utils/contants";
+import { getRandomArbitrary, MQTT_URI, NINJA_URI } from "utils/contants";
 
 
 @Injectable()
 export class MessagesService {
 
-    client = mqtt.connect('mqtt://broker.hivemq.com')
+    clientHost = 'mqtt://test.mosquitto.org';
+  
     constructor(private httpService: HttpService){
       
     
@@ -37,15 +38,20 @@ export class MessagesService {
             message:await this.getRandomMessage(),
             userId
         });
-        console.log({message});
-        this.client.once("connect",()=>{
-            this.client.publish('lyatest/[código_prueba]',message,{},error=>{
+       let  client = mqtt.connect(this.clientHost);
+        console.log("on connect data ");
+        client.once("connect",()=>{
+            console.log("conecct data ");
+            client.publish('lyatest/angulo',message,{},error=>{
+                console.log("sending data ");
+                client.end();
                 if (error){
                     resolve({
                         msg:"error al enviar el mensaje",
                         status:false
                     });
                 }
+               
                 resolve({
                     msg:"mensaje enviado",
                     status:true
@@ -53,6 +59,7 @@ export class MessagesService {
                 
             })
         });
+      
         
        });
 

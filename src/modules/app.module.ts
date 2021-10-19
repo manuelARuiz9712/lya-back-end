@@ -14,6 +14,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'auth/jwt.strategy';
 import { JWT_SECRET } from 'utils/contants';
 import { HttpModule } from '@nestjs/axios';
+import { MessagesController } from 'controllers/messages.controller';
+import { MessagesService } from 'services/messages.service';
 
 
 
@@ -38,8 +40,8 @@ import { HttpModule } from '@nestjs/axios';
       }),
 
   ],
-  controllers: [AuthController,UserController],
-  providers: [AuthService,LocalStrategy,JwtStrategy,AppService,UserService],
+  controllers: [AuthController,UserController,MessagesController],
+  providers: [AuthService,LocalStrategy,JwtStrategy,AppService,UserService,MessagesService],
   exports: [AuthService],
 })
 export class AppModule {}
